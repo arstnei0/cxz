@@ -73,6 +73,12 @@ importers:
       vite-plugin-dts: 1.7.1_vite@4.0.4
       vite-plugin-solid: 2.5.0_solid-js@1.6.9+vite@4.0.4
 
+  packages/dev:
+    specifiers:
+      cxz: workspace:*
+    dependencies:
+      cxz: link:../cxz
+
 packages:
 
   /@ampproject/remapping/2.2.0:

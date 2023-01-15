@@ -1,5 +1,9 @@
 import { mergeConfig, Plugin, UserConfig } from "vite"
 import { Options, OptionsI } from "./options"
+import { createVitePluginAutoImport } from "./plugins/auto-imports"
+import { createVitePluginSolid } from "./plugins/solid"
+import createVitePluginInspect from "vite-plugin-inspect"
+import { createVitePluginCxzMiddleware } from "./plugins/middleware"
 
 export const createCxzVitePlugin = (optionsI: OptionsI): Plugin[] => {
 	const options = Options.parse(optionsI)
@@ -31,13 +35,19 @@ export const createCxzVitePlugin = (optionsI: OptionsI): Plugin[] => {
 				} as UserConfig)
 			},
 		},
+		createVitePluginCxzMiddleware(),
 		{
 			name: "cxz-server",
 			configureServer(/* vite server */ vs) {
-                vs.middlewares.use((req, res, next) => {
-
-                })
-            },
+				vs.middlewares.use(async (req, res, next) => {
+					const mod = await vs.ssrLoadModule(options.entries.server)
+					console.log(mod)
+				})
+			},
 		},
+
+		createVitePluginInspect(),
+		createVitePluginSolid(),
+		createVitePluginAutoImport(),
 	]
 }

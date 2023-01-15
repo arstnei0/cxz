@@ -1,0 +1,9 @@
+{
+	"name": "dev",
+    "scripts": {
+        "dev": "cxz dev"
+    },
+	"dependencies": {
+		"cxz": "workspace:*"
+	}
+}
